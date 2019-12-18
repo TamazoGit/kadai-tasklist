@@ -18,7 +18,9 @@
                             <li class="dropdown-divider"></li>
                             <li class="dropdown-item">{!! link_to_route('logout.get', 'Logout') !!}</li>
                         </ul>
-                    </li>
+                @else
+                    <li>{!! link_to_route('signup.get', 'Signup', [], ['class' => 'nav-link']) !!}</li>
+                    <li><a href="#">Login</a></li>
                 @endif
             </ul>
         </div>
