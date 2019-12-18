@@ -15,11 +15,15 @@ class TasksController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
+        if (\Auth::check()) {
+            $tasks = task::all();
 
-        return view('tasks.index', [
-            'tasks' => $tasks,
-        ]);
+            return view('tasks.index', [
+                'tasks' => $tasks,
+            ]);
+        }
+        else
+            return redirect('/tasks');
     }
 
     /**
@@ -44,6 +48,7 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
+        $user = \Auth::user();
         $this->validate($request, [
             'status' => 'required|max:10',
             'content' => 'required|max:191',
@@ -52,6 +57,7 @@ class TasksController extends Controller
         $task = new Task;
         $task->status = $request->status;
         $task->content = $request->content;
+        $task->user_id = $user->id;
         $task->save();
 
         return redirect('/');
@@ -119,7 +125,7 @@ class TasksController extends Controller
     {
         $task = Task::find($id);
         $task->delete();
-
+    
         return redirect('/');
     }
 }
