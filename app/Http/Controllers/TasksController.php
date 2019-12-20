@@ -16,7 +16,8 @@ class TasksController extends Controller
     public function index()
     {
         if (\Auth::check()) {
-            $tasks = task::all();
+            $user = \Auth::user();
+            $tasks = $user->tasks;
 
             return view('tasks.index', [
                 'tasks' => $tasks,
